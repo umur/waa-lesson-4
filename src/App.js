@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import AuthBlock from './containers/AuthBlock/AuthBlock';
+import Dashboard from './containers/Dashboard/Dashboard';
 
 const App = () => {
 
   return (
     <BrowserRouter>
-      <AuthBlock />
+      <Dashboard />
     </BrowserRouter>
   );
 }

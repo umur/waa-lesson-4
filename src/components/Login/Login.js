@@ -1,41 +1,33 @@
 import React, { useRef } from 'react';
-import './Auth.module.css';
+import './Login.css';
 import { useDispatch } from 'react-redux';
-import { createAction } from '@reduxjs/toolkit'
-import { authActions } from '../../store/index';
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
 
-const Auth = (props) => {
+
+const Login = (props) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const formData = useRef();
 
-  const doLoginAction = (userCredentials) => {
-    return createAction('LOGIN_ACTION', text => {
-      axios.post('http://localhost:8080/api/v1/uaa', userCredentials) // 
-        .then(response => {
-          console.log("EXPECTED JWT: " + response.data);
-          debugger;
-          if (response.data) {
-            Cookies.set('user',response.data)
-            dispatch(authActions.login());
-            // navigate('/user');
-          }
 
-        })
-        .catch(err => alert(err.message))
-    })
-  }
-  const loginHandler = () => {
+
+  const doLogin = createAsyncThunk('login', async (userCredentials) => {
+    const res = await axios.post('http://localhost:8080/api/v1/uaa', userCredentials);
+    return res.data;
+  })
+
+  const loginHandler = async (e) => {
+    e.preventDefault();
     const form = formData.current
     const userCredentials = { email: form['user'].value, password: form['password'].value };
-    const loginAction = doLoginAction(userCredentials);  // doLoginAction(userCredentials)();
-    loginAction();
-
+    const result = await dispatch(doLogin(userCredentials));
+    console.log(result.payload)
+    Cookies.set('user',result.payload);
   }
 
   return (
@@ -57,4 +49,4 @@ const Auth = (props) => {
   );
 };
 
-export default Auth;
+export default Login;
