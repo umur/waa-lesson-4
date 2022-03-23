@@ -1,10 +1,11 @@
 import React, { useRef } from 'react';
 import './Login.css';
 import { useDispatch } from 'react-redux';
-import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
+import {createAsyncThunk } from '@reduxjs/toolkit'
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { authActions } from '../../store/index';
 
 
 
@@ -15,20 +16,20 @@ const Login = (props) => {
   const formData = useRef();
 
 
-
   const doLogin = createAsyncThunk('login', async (userCredentials) => {
     const res = await axios.post('http://localhost:8080/api/v1/uaa', userCredentials);
     return res.data;
-  })
+  });
 
   const loginHandler = async (e) => {
     e.preventDefault();
     const form = formData.current
     const userCredentials = { email: form['user'].value, password: form['password'].value };
     const result = await dispatch(doLogin(userCredentials));
-    console.log(result.payload)
+    dispatch(authActions.loginSuccessful());
     Cookies.set('user',result.payload);
-  }
+    navigate('/dashboard');
+  };
 
   return (
     <main className="auth">

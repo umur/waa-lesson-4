@@ -30,12 +30,10 @@ const Counter = (props) => {
   }
 
   return (
-
     <main className="Counter">
       {isAuthenticated ? null : props.history.push("/login")}
       <h1>Redux Counter</h1>
       {show ? <div className="value">{counter}</div> : null}
-      {/* {show && <div className="value">{counter}</div>} */}
       <div>
 
         <input type="text" onChange={(event) => setInputVal(event.target.value)} />

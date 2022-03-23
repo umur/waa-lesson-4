@@ -3,45 +3,32 @@ import { useSelector } from 'react-redux';
 import './UserProfile.module.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 
 const UserProfile = (props) => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated); // put the name of the slice
-  const counter = useSelector(state => state.counter.counter); // this will make a subscription
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const counter = useSelector(state => state.counter.counter);
 
-  // axios.interceptors.request.use(
-  //   config => {
-  //     config.headers.autorization = jwt;
-  //     return config;
-  //   },
-  //   error => {
-  //     return Promise.reject(error);
-  //   }
-  // );
-
-  const fetchDataHandler = () => {
-
+  useEffect(async () => {
     const headers = {
-      'Authorization':`Bearer ${Cookies.get('user')}`
+      'Authorization': `Bearer ${Cookies.get('user')}`
     }
-
-    axios.get('/posts' )  // {headers}
-      .then(response => {
-        console.log(response.data);
-        // props.history.push('/posts'); // push will add it to the page stack, replace will just replace the component  // props.history.replace('/posts'); 
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      }); // to check push, go to google, then newpost and submit, then go back.
-  }
+    try {
+      const response = await axios.get('/api/v1/products', headers);
+      console.log(response);
+    } catch (err) {
+      console.log(err)
+    }
+  }, []);
 
   return (
     <React.Fragment>
       <main className="profile">
-        {isAuthenticated ? null : props.history.push("/login")}
+        {/* {isAuthenticated ? null : props.history.push("/login")} */}
         <h2>My User Profile</h2>
         <p>your current count is: {counter}</p>
       </main>
-      <button onClick={fetchDataHandler}> Get Post</button>
+
     </React.Fragment>
 
   );

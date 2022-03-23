@@ -2,22 +2,24 @@ import React from 'react';
 import './Header.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { authActions } from '../../store/index';
-import { Link, Redirect} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import 'react-router';
+import { useNavigate } from 'react-router';
 
-const Header = (props) => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated); // put the name of the slice
+const Header = () => { 
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const dispatch = useDispatch();
+  const navigate=useNavigate();
 
   const logoutHandler = () => {
     dispatch(authActions.logout());
-    // <Redirect to='/login'/>;
+    navigate('/login');
   }
 
-  return (
-    <header className="header">
-      <h1>Redux Auth Demo</h1>
-      {isAuthenticated && (<nav>
+  let headerJsx = (
+    <nav>
+      <header className="header">
+        <h1>Redux Auth Demo</h1>
         <ul>
           <li>
             <Link to="/">My Products</Link>
@@ -35,10 +37,14 @@ const Header = (props) => {
             <button onClick={logoutHandler}>Logout</button>
           </li>
         </ul>
-      </nav>)}
-
-    </header>
+      </header >
+    </nav>
   );
+  if (!isAuthenticated) {
+    headerJsx = null;
+  }
+
+  return headerJsx;
 };
 
 export default Header;
