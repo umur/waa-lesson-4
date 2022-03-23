@@ -21,12 +21,12 @@ const Header = () => {
       <header className="header">
         <h1>Redux Auth Demo</h1>
         <ul>
+        
+        {/* DEAN !!! */}
           <li>
             <Link to="/">My Products</Link>
           </li>
-          <li>
-            <Link to="/"> My Sales</Link>
-          </li>
+        
           <li>
             <Link to="/counter"> Counter </Link>
           </li>

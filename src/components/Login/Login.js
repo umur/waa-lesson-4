@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import './Login.css';
 import { useDispatch } from 'react-redux';
-import {createAsyncThunk } from '@reduxjs/toolkit'
+import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -18,6 +18,7 @@ const Login = (props) => {
 
   const doLogin = createAsyncThunk('login', async (userCredentials) => {
     const res = await axios.post('http://localhost:8080/api/v1/uaa', userCredentials);
+
     return res.data;
   });
 
@@ -27,7 +28,7 @@ const Login = (props) => {
     const userCredentials = { email: form['user'].value, password: form['password'].value };
     const result = await dispatch(doLogin(userCredentials));
     dispatch(authActions.loginSuccessful());
-    Cookies.set('user',result.payload);
+    Cookies.set('user', result.payload);
     navigate('/dashboard');
   };
 
