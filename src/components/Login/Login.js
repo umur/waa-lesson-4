@@ -1,12 +1,11 @@
 import React, { useRef } from 'react';
 import './Login.css';
 import { useDispatch } from 'react-redux';
-import {createAsyncThunk } from '@reduxjs/toolkit'
+import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { authActions } from '../../store/index';
-
 
 
 const Login = (props) => {
@@ -16,10 +15,10 @@ const Login = (props) => {
   const formData = useRef();
 
 
-  const doLogin = createAsyncThunk('login', async (userCredentials) => {
-    const res = await axios.post('http://localhost:8080/api/v1/uaa', userCredentials);
+  const doLogin = async (userCredentials) => {
+    const res = await axios.post('http://localhost:8080/api/v1/authenticate', userCredentials);
     return res.data;
-  });
+  };
 
   const loginHandler = async (e) => {
     e.preventDefault();
@@ -27,7 +26,8 @@ const Login = (props) => {
     const userCredentials = { email: form['user'].value, password: form['password'].value };
     const result = await dispatch(doLogin(userCredentials));
     dispatch(authActions.loginSuccessful());
-    Cookies.set('user',result.payload);
+    console.log(result.payload.accessToken);
+    Cookies.set('user', result.payload.accessToken);
     navigate('/dashboard');
   };
 
@@ -51,3 +51,21 @@ const Login = (props) => {
 };
 
 export default Login;
+
+
+
+// const doLogin = createAsyncThunk('login', async (userCredentials) => {
+//   const res = await axios.post('http://localhost:8080/api/v1/authenticate', userCredentials);
+//   return res.data;
+// });
+
+// const loginHandler = async (e) => {
+//   e.preventDefault();
+//   const form = formData.current
+//   const userCredentials = { email: form['user'].value, password: form['password'].value };
+//   const result = await dispatch(doLogin(userCredentials));
+//   dispatch(authActions.loginSuccessful());
+//   console.log(result.payload.accessToken);
+//   Cookies.set('user', result.payload.accessToken);
+//   navigate('/dashboard');
+// };
