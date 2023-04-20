@@ -19,8 +19,6 @@ const Login = (props) => {
   const errRef = useRef();
   const [errMsg, setErrMsg] = useState('');
 
-
-
   const loginHandler = async (e) => {
     e.preventDefault();
     try {
