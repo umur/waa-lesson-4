@@ -4,7 +4,6 @@ import './Counter.css';
 import { counterActions } from '../../store/index';
 
 const Counter = (props) => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated); // put the name of the slice
 
   const [inputVal, setInputVal] = useState(0);
   // useSelector is used for getting data out of the store
@@ -31,7 +30,6 @@ const Counter = (props) => {
 
   return (
     <main className="Counter">
-      {isAuthenticated ? null : props.history.push("/login")}
       <h1>Redux Counter</h1>
       {show ? <div className="value">{counter}</div> : null}
       <div>

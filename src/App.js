@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import Dashboard from './containers/Dashboard/Dashboard';
+
 import axios from 'axios'; 
+import Dashboard from './pages/Dashboard/Dashboard';
 
 const App = () => {
 
@@ -10,7 +11,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Dashboard />
+      <Dashboard/>
     </BrowserRouter>
   );
 }

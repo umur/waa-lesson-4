@@ -1,13 +1,12 @@
 import React, { Fragment } from 'react'
-import Header from '../../components/Header/Header';
-import PageRoutes from './PageRoutes';
+import PageRoutes from '../../routes/PageRoutes';
+import Header from '../Header/Header';
 
 const Dashboard = () => {
     return (
         <Fragment>
             <Header />
-
-            <PageRoutes />
+            <PageRoutes/>
         </Fragment>
     );
 }
